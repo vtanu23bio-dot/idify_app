@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController nameController = TextEditingController();
   String generatedName = '';
   int generatedId = 0;
+  String selectedRole = 'Student';
+
 
   void generateIdCard() {
     setState(() {
@@ -58,7 +60,20 @@ class _HomePageState extends State<HomePage> {
                 labelText: 'Enter your name',
                 border: OutlineInputBorder(),
               ),
-            ),
+            ),DropdownButton<String>(
+  value: selectedRole,
+  items: const [
+    DropdownMenuItem(value: 'Student', child: Text('Student')),
+    DropdownMenuItem(value: 'Employee', child: Text('Employee')),
+  ],
+  onChanged: (value) {
+    setState(() {
+      selectedRole = value!;
+    });
+  },
+),
+const SizedBox(height: 20),
+
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: generateIdCard,
@@ -79,9 +94,15 @@ class _HomePageState extends State<HomePage> {
                         generatedName,
                         style: const TextStyle(
                           fontSize: 22,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.bold
                         ),
                       ),
+                      const SizedBox(height: 6),
+Text(
+  selectedRole,
+  style: const TextStyle(fontSize: 16),
+),
+
                       const SizedBox(height: 10),
                       Text(
                         'ID: $generatedId',
