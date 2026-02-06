@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,108 +12,89 @@ class IDifyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'IDify',
-      home: const IDifyHome(),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.indigo,
+      ),
+      home: const HomePage(),
     );
   }
 }
 
-class IDifyHome extends StatefulWidget {
-  const IDifyHome({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<IDifyHome> createState() => _IDifyHomeState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _IDifyHomeState extends State<IDifyHome> {
-  final TextEditingController _nameController = TextEditingController();
-  final Random _random = Random();
+class _HomePageState extends State<HomePage> {
+  final TextEditingController nameController = TextEditingController();
+  String generatedName = '';
+  int generatedId = 0;
 
-  String name = "Your Name";
-  String role = "Flutter Developer";
-  int idNumber = 0;
-
-  final List<String> roles = [
-    "Flutter Developer",
-    "UI/UX Designer",
-    "Software Intern",
-    "Project Manager",
-  ];
-
-  void generateID() {
+  void generateIdCard() {
     setState(() {
-      name = _nameController.text.isEmpty
-          ? "Unnamed User"
-          : _nameController.text;
-      role = roles[_random.nextInt(roles.length)];
-      idNumber = _random.nextInt(90000) + 10000;
+      generatedName = nameController.text;
+      generatedId = DateTime.now().millisecondsSinceEpoch % 100000;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
       appBar: AppBar(
-        title: const Text("IDify – Digital ID Generator"),
+        title: const Text('IDify – Digital ID Generator'),
         centerTitle: true,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: "Enter your name",
-                  border: OutlineInputBorder(),
-                ),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: 'Enter your name',
+                border: OutlineInputBorder(),
               ),
-              const SizedBox(height: 20),
-              Container(
-                width: 300,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.indigo,
-                  borderRadius: BorderRadius.circular(20),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: generateIdCard,
+              child: const Text('Generate ID'),
+            ),
+            const SizedBox(height: 30),
+            if (generatedName.isNotEmpty)
+              Card(
+                elevation: 6,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-                child: Column(
-                  children: [
-                    const Icon(Icons.badge, color: Colors.white, size: 50),
-                    const SizedBox(height: 10),
-                    Text(
-                      name,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      Text(
+                        generatedName,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text(
-                      role,
-                      style: const TextStyle(color: Colors.white70),
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      "ID: $idNumber",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        letterSpacing: 1.2,
+                      const SizedBox(height: 10),
+                      Text(
+                        'ID: $generatedId',
+                        style: const TextStyle(fontSize: 16),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: generateID,
-                child: const Text("Generate ID"),
-              ),
-            ],
-          ),
+          ],
         ),
       ),
     );
   }
 }
+
