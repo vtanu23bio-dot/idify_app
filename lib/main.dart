@@ -1,103 +1,113 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const IDifyApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class IDifyApp extends StatelessWidget {
+  const IDifyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'ID Card Generator',
-      home: const IdCardPage(),
+      title: 'IDify',
+      home: const HomePage(),
     );
   }
 }
 
-class IdCardPage extends StatefulWidget {
-  const IdCardPage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  State<IdCardPage> createState() => _IdCardPageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _IdCardPageState extends State<IdCardPage> {
+class _HomePageState extends State<HomePage> {
   final TextEditingController nameController = TextEditingController();
 
   String selectedRole = 'Student';
-  String generatedName = '';
-  String generatedId = '';
+
+  final List<Map<String, String>> generatedCards = [];
+
+  void generateIdCard() {
+    if (nameController.text.isEmpty) return;
+
+    setState(() {
+      generatedCards.add({
+        'name': nameController.text,
+        'role': selectedRole,
+        'id': (DateTime.now().millisecondsSinceEpoch % 100000).toString(),
+      });
+      nameController.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('ID Card Generator'),
+        title: const Text('IDify – Digital ID Generator'),
         centerTitle: true,
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
 
-                // NAME INPUT
-                TextField(
-                  controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Enter your name',
-                    border: OutlineInputBorder(),
-                  ),
-                ),
+            /// NAME INPUT
+            TextField(
+              controller: nameController,
+              decoration: const InputDecoration(
+                labelText: 'Enter Name',
+                border: OutlineInputBorder(),
+              ),
+            ),
 
-                const SizedBox(height: 16),
+            const SizedBox(height: 12),
 
-                // ROLE DROPDOWN
-                DropdownButtonFormField<String>(
-                  value: selectedRole,
-                  decoration: const InputDecoration(
-                    labelText: 'Select Role',
-                    border: OutlineInputBorder(),
-                  ),
-                  items: const [
-                    DropdownMenuItem(value: 'Student', child: Text('Student')),
-                    DropdownMenuItem(value: 'Teacher', child: Text('Teacher')),
-                    DropdownMenuItem(value: 'Admin', child: Text('Admin')),
-                  ],
-                  onChanged: (value) {
-                    setState(() {
-                      selectedRole = value!;
-                    });
-                  },
-                ),
+            /// ROLE DROPDOWN (VISIBLE & RELIABLE)
+            DropdownButton<String>(
+              value: selectedRole,
+              isExpanded: true,
+              items: const [
+                DropdownMenuItem(value: 'Student', child: Text('Student')),
+                DropdownMenuItem(value: 'Employee', child: Text('Employee')),
+                DropdownMenuItem(value: 'Intern', child: Text('Intern')),
+              ],
+              onChanged: (value) {
+                setState(() {
+                  selectedRole = value!;
+                });
+              },
+            ),
 
-                const SizedBox(height: 20),
+            const SizedBox(height: 12),
 
-                // GENERATE BUTTON
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      generatedName = nameController.text;
-                      generatedId = DateTime.now()
-                          .millisecondsSinceEpoch
-                          .toString();
-                    });
-                  },
-                  child: const Text('Generate ID Card'),
-                ),
+            /// GENERATE BUTTON
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: generateIdCard,
+                child: const Text('Generate ID Card'),
+              ),
+            ),
 
-                const SizedBox(height: 30),
+            const SizedBox(height: 16),
 
-                // GRADIENT ID CARD
-                if (generatedName.isNotEmpty)
-                  Container(
-                    padding: const EdgeInsets.all(20),
+            /// LIST OF ID CARDS
+            Expanded(
+              child: ListView.builder(
+                itemCount: generatedCards.length,
+                itemBuilder: (context, index) {
+                  final card = generatedCards[index];
+
+                  return Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: 16),
+                    padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
                         colors: [Colors.indigo, Colors.blueAccent],
@@ -108,7 +118,7 @@ class _IdCardPageState extends State<IdCardPage> {
                       boxShadow: const [
                         BoxShadow(
                           color: Colors.black26,
-                          blurRadius: 10,
+                          blurRadius: 8,
                           offset: Offset(0, 4),
                         ),
                       ],
@@ -120,47 +130,36 @@ class _IdCardPageState extends State<IdCardPage> {
                           'IDENTITY CARD',
                           style: TextStyle(
                             color: Colors.white70,
-                            fontSize: 16,
                             letterSpacing: 1.5,
                           ),
                         ),
-
-                        const SizedBox(height: 16),
-
+                        const SizedBox(height: 10),
                         Text(
-                          generatedName,
+                          card['name']!,
                           style: const TextStyle(
                             color: Colors.white,
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-
-                        const SizedBox(height: 6),
-
                         Text(
-                          selectedRole,
+                          card['role']!,
                           style: const TextStyle(
                             color: Colors.white70,
-                            fontSize: 16,
                           ),
                         ),
-
-                        const SizedBox(height: 12),
-
+                        const SizedBox(height: 8),
                         Text(
-                          'ID: $generatedId',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                          ),
+                          'ID: ${card['id']}',
+                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),
-                  ),
-              ],
+                  );
+                },
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );
