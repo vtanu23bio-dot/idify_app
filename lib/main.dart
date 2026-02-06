@@ -1,174 +1,168 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const IDifyApp());
+  runApp(const MyApp());
 }
 
-class IDifyApp extends StatelessWidget {
-  const IDifyApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'IDify',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.indigo,
-      ),
-      home: const HomePage(),
+      title: 'ID Card Generator',
+      home: const IdCardPage(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class IdCardPage extends StatefulWidget {
+  const IdCardPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<IdCardPage> createState() => _IdCardPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _IdCardPageState extends State<IdCardPage> {
   final TextEditingController nameController = TextEditingController();
-  String generatedName = '';
-  int generatedId = 0;
+
   String selectedRole = 'Student';
-
-
-  void generateIdCard() {
-    setState(() {
-      generatedName = nameController.text;
-      generatedId = DateTime.now().millisecondsSinceEpoch % 100000;
-    });
-  }
+  String generatedName = '';
+  String generatedId = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: const Text('IDify – Digital ID Generator'),
+        title: const Text('ID Card Generator'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextField(
-              controller: nameController,
-              decoration: const InputDecoration(
-                labelText: 'Enter your name',
-                border: OutlineInputBorder(),
-              ),
-            ),DropdownButton<String>(
-  value: selectedRole,
-  items: const [
-    DropdownMenuItem(value: 'Student', child: Text('Student')),
-    DropdownMenuItem(value: 'Employee', child: Text('Employee')),
-  ],
-  onChanged: (value) {
-    setState(() {
-      selectedRole = value!;
-    });
-  },
-),
-const SizedBox(height: 20),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
 
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: generateIdCard,
-              child: const Text('Generate ID'),
-            ),
-            const SizedBox(height: 30),
-         if (generatedName.isNotEmpty)
-  Container(
-    margin: const EdgeInsets.only(top: 20),
-    padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      gradient: const LinearGradient(
-        colors: [Colors.indigo, Colors.blueAccent],
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      borderRadius: BorderRadius.circular(16),
-      boxShadow: const [
-        BoxShadow(
-          color: Colors.black26,
-          blurRadius: 10,
-          offset: Offset(0, 6),
-        ),
-      ],
-    ),
-    child: Column(
-      children: [
-        const Icon(
-          Icons.badge,
-          size: 48,
-          color: Colors.white,
-        ),
-        const SizedBox(height: 12),
-        Text(
-          generatedName,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          selectedRole,
-          style: const TextStyle(
-            fontSize: 16,
-            color: Colors.white70,
-          ),
-        ),
-        const SizedBox(height: 12),
-        const Divider(color: Colors.white54),
-        const SizedBox(height: 8),
-        Text(
-          'ID: $generatedId',
-          style: const TextStyle(
-            fontSize: 16,
-            color: Colors.white,
-            letterSpacing: 1.2,
-          ),
-        ),
-      ],
-    ),
-  ),
-
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    children: [
-                      Text(
-                        generatedName,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-Text(
-  selectedRole,
-  style: const TextStyle(fontSize: 16),
-),
-
-                      const SizedBox(height: 10),
-                      Text(
-                        'ID: $generatedId',
-                        style: const TextStyle(fontSize: 16),
-                      ),
-                    ],
+                // NAME INPUT
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter your name',
+                    border: OutlineInputBorder(),
                   ),
                 ),
-              ),
-          ],
+
+                const SizedBox(height: 16),
+
+                // ROLE DROPDOWN
+                DropdownButtonFormField<String>(
+                  value: selectedRole,
+                  decoration: const InputDecoration(
+                    labelText: 'Select Role',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: const [
+                    DropdownMenuItem(value: 'Student', child: Text('Student')),
+                    DropdownMenuItem(value: 'Teacher', child: Text('Teacher')),
+                    DropdownMenuItem(value: 'Admin', child: Text('Admin')),
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      selectedRole = value!;
+                    });
+                  },
+                ),
+
+                const SizedBox(height: 20),
+
+                // GENERATE BUTTON
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      generatedName = nameController.text;
+                      generatedId = DateTime.now()
+                          .millisecondsSinceEpoch
+                          .toString();
+                    });
+                  },
+                  child: const Text('Generate ID Card'),
+                ),
+
+                const SizedBox(height: 30),
+
+                // GRADIENT ID CARD
+                if (generatedName.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Colors.indigo, Colors.blueAccent],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black26,
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'IDENTITY CARD',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 16,
+                            letterSpacing: 1.5,
+                          ),
+                        ),
+
+                        const SizedBox(height: 16),
+
+                        Text(
+                          generatedName,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 6),
+
+                        Text(
+                          selectedRole,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 16,
+                          ),
+                        ),
+
+                        const SizedBox(height: 12),
+
+                        Text(
+                          'ID: $generatedId',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
         ),
       ),
     );
   }
 }
-
