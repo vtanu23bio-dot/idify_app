@@ -80,11 +80,64 @@ const SizedBox(height: 20),
               child: const Text('Generate ID'),
             ),
             const SizedBox(height: 30),
-            if (generatedName.isNotEmpty)
-              Card(
-                elevation: 6,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+         if (generatedName.isNotEmpty)
+  Container(
+    margin: const EdgeInsets.only(top: 20),
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      gradient: const LinearGradient(
+        colors: [Colors.indigo, Colors.blueAccent],
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+      ),
+      borderRadius: BorderRadius.circular(16),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black26,
+          blurRadius: 10,
+          offset: Offset(0, 6),
+        ),
+      ],
+    ),
+    child: Column(
+      children: [
+        const Icon(
+          Icons.badge,
+          size: 48,
+          color: Colors.white,
+        ),
+        const SizedBox(height: 12),
+        Text(
+          generatedName,
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          selectedRole,
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.white70,
+          ),
+        ),
+        const SizedBox(height: 12),
+        const Divider(color: Colors.white54),
+        const SizedBox(height: 8),
+        Text(
+          'ID: $generatedId',
+          style: const TextStyle(
+            fontSize: 16,
+            color: Colors.white,
+            letterSpacing: 1.2,
+          ),
+        ),
+      ],
+    ),
+  ),
+
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(20),
