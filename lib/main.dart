@@ -138,15 +138,7 @@ class _HomePageState extends State<HomePage> {
                 itemBuilder: (context, index) {
                   final card = generatedCards[index];
 
-                  return Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Colors.indigo, Colors.blueAccent],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+                 
                       ),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [
@@ -154,7 +146,104 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.black26,
                           blurRadius: 8,
                           offset: Offset(0, 4),
-                        ),
+                        ),return Container(
+  margin: const EdgeInsets.only(bottom: 16),
+  padding: const EdgeInsets.all(16),
+  decoration: BoxDecoration(
+    gradient: const LinearGradient(
+      colors: [Color(0xFF3F51B5), Color(0xFF5C6BC0)],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    ),
+    borderRadius: BorderRadius.circular(18),
+    boxShadow: const [
+      BoxShadow(
+        color: Colors.black26,
+        blurRadius: 10,
+        offset: Offset(0, 5),
+      ),
+    ],
+  ),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      // HEADER
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: const [
+          Text(
+            'COLLEGE ID CARD',
+            style: TextStyle(
+              color: Colors.white70,
+              letterSpacing: 1.2,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Icon(Icons.school, color: Colors.white70),
+        ],
+      ),
+
+      const Divider(color: Colors.white30, height: 20),
+
+      // BODY
+      Row(
+        children: [
+          // Avatar
+          Container(
+            height: 60,
+            width: 60,
+            decoration: BoxDecoration(
+              color: Colors.white24,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(
+              Icons.person,
+              color: Colors.white,
+              size: 36,
+            ),
+          ),
+
+          const SizedBox(width: 14),
+
+          // Details
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                card['name']!,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                card['role']!,
+                style: const TextStyle(
+                  color: Colors.white70,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+
+      const SizedBox(height: 16),
+
+      // FOOTER
+      Text(
+        'ID: ${card['id']}',
+        style: const TextStyle(
+          color: Colors.white70,
+          fontSize: 13,
+        ),
+      ),
+    ],
+  ),
+);
+
                       ],
                     ),
                     child: Column(
