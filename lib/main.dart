@@ -150,11 +150,16 @@ class _HomePageState extends State<HomePage> {
   margin: const EdgeInsets.only(bottom: 16),
   padding: const EdgeInsets.all(16),
   decoration: BoxDecoration(
-    gradient: const LinearGradient(
-      colors: [Color(0xFF3F51B5), Color(0xFF5C6BC0)],
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-    ),
+   gradient: LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF1E3C72), // deep college blue
+      Color(0xFF2A5298), // blue-purple shade
+    ],
+  ),
+  borderRadius: BorderRadius.circular(20),
+),
     borderRadius: BorderRadius.circular(18),
     boxShadow: const [
       BoxShadow(
