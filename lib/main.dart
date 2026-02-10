@@ -1,3 +1,5 @@
+dart 
+import 'widgets/id_card.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -136,8 +138,13 @@ class _HomePageState extends State<HomePage> {
               child: ListView.builder(
                 itemCount: generatedCards.length,
                 itemBuilder: (context, index) {
-                  final card = generatedCards[index];
-
+                  final card = generatedCards[index]
+                return IdCard(
+                   name: card['name']!,
+                  role: card['role']!,
+                   id: card['id']!,
+  );
+},
                  
                       ),
                       borderRadius: BorderRadius.circular(20),
