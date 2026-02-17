@@ -132,8 +132,8 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 16),
 
             /// LIST OF ID CARDS
-            Expanded(
-              child: ListView.builder(
+            //Expanded(
+              //child: ListView.builder(
                 itemCount: generatedCards.length,
                 itemBuilder: (context, index) {
                   final card = generatedCards[index];
