@@ -20,7 +20,8 @@ class IdCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
-      padding: const EdgeInsets.all(16),
+     padding: const EdgeInsets.all(20),
+margin: const EdgeInsets.symmetric(vertical: 16),
     decoration: BoxDecoration(
   gradient: const LinearGradient(
     begin: Alignment.topLeft,
