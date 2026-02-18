@@ -21,13 +21,24 @@ class IdCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 12),
       padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
-            Color(0xFF4B6CB7),
-            Color(0xFF182848),
-          ],
-        ),
+    decoration: BoxDecoration(
+  gradient: const LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF1E3C72), // deep college blue
+      Color(0xFF2A5298), // premium blue shade
+    ],
+  ),
+  borderRadius: BorderRadius.circular(20),
+  boxShadow: const [
+    BoxShadow(
+      color: Colors.black38,
+      blurRadius: 14,
+      offset: Offset(0, 6),
+    ),
+  ],
+),
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
           BoxShadow(
