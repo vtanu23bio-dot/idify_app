@@ -1,20 +1,25 @@
-import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MyApp());
-};
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  // opens class {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Flutter is working'),
-        ),
-      ),
-    );
-  };
+    // opens method {
 
+    return const MaterialApp(
+      // opens MaterialApp(
+
+      home: Scaffold(
+        // opens Scaffold(
+
+        body: Center(
+          // opens Center(
+          child: Text('Flutter is working'),
+        ), // closes Center
+
+      ), // closes Scaffold
+
+    ); // closes MaterialApp AND ends return statement
+
+  } // closes build()
+
+} // closes class
